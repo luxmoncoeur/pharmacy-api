@@ -20,25 +20,10 @@ const medicineController = {
 
   // Get medicine by ID
   getMedicineById: async (req, res) => {
-    try {
-      const medicine = await Medicine.getById(req.params.id);
-      if (!medicine) {
-        return res.status(404).json({
-          success: false,
-          message: "Medicine not found",
-        });
-      }
-      res.json({
-        success: true,
-        data: medicine,
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Error fetching medicine",
-        error: error.message,
-      });
-    }
+    res.json({
+      success: true,
+      data: req.medicine,
+    });
   },
 
   // Add new medicine
@@ -150,28 +135,17 @@ const medicineController = {
         req.body;
       const medicineId = req.params.id;
 
-      // Check if medicine exists
-      const existingMedicine = await Medicine.getById(medicineId);
-      if (!existingMedicine) {
-        return res.status(404).json({
-          success: false,
-          message: "Medicine not found",
-        });
-      }
-
-      // Validation
       if (
         !name ||
         !brand ||
         !category ||
-        !price ||
-        !stock ||
-        !requires_prescription
+        price === undefined ||
+        stock === undefined ||
+        requires_prescription === undefined
       ) {
         return res.status(400).json({
           success: false,
-          message:
-            "All fields (name, brand, category, price, stock, requires_prescription) are required",
+          message: "All fields are required",
         });
       }
 
@@ -183,11 +157,7 @@ const medicineController = {
         stock,
         requires_prescription,
       });
-
-      res.json({
-        success: true,
-        message: "Medicine updated successfully",
-      });
+      res.json({ success: true, message: "Medicine updated successfully" });
     } catch (error) {
       res.status(500).json({
         success: false,
@@ -200,29 +170,16 @@ const medicineController = {
   // Delete medicine
   deleteMedicine: async (req, res) => {
     try {
-      const medicineId = req.params.id;
-
-      // Check if medicine exists
-      const existingMedicine = await Medicine.getById(medicineId);
-      if (!existingMedicine) {
-        return res.status(404).json({
-          success: false,
-          message: "Medicine not found",
-        });
-      }
-
-      await Medicine.delete(medicineId);
-
-      res.json({
-        success: true,
-        message: "Medicine deleted successfully",
-      });
+      await Medicine.delete(req.params.id);
+      res.json({ success: true, message: "Medicine deleted successfully" });
     } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Error deleting medicine",
-        error: error.message,
-      });
+      res
+        .status(500)
+        .json({
+          success: false,
+          message: "Error deleting medicine",
+          error: error.message,
+        });
     }
   },
 };
