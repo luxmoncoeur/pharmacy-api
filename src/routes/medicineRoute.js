@@ -2,6 +2,8 @@ import express from "express";
 const router = express.Router();
 import medicineController from "../controllers/medicineController.js";
 
+import { checkMedicineExists } from "../middleware/medicineMiddleware.js";
+
 // GET /api/medicines - Get all medicines
 router.get("/", medicineController.getAllMedicines);
 
@@ -15,15 +17,15 @@ router.get("/brand/:brand", medicineController.getMedicineByBrand);
 router.get("/category/:category", medicineController.getMedicineByCategory);
 
 // GET /api/medicines/:id - Get medicine by ID
-router.get("/:id", medicineController.getMedicineById);
+router.get("/:id", checkMedicineExists, medicineController.getMedicineById);
 
 // POST /api/medicine - Create / add new medicine
 router.post("/", medicineController.addMedicine);
 
 // PUT /api/medicine/:id - Update medicine
-router.put("/:id", medicineController.updateMedicine);
+router.put("/:id", checkMedicineExists, medicineController.updateMedicine);
 
 // DELETE /api/medicine/:id - Delete medicine
-router.delete("/:id", medicineController.deleteMedicine);
+router.delete("/:id", checkMedicineExists, medicineController.deleteMedicine);
 
 export default router;

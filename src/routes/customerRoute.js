@@ -1,6 +1,7 @@
 import express from "express";
 const router = express.Router();
 import customerController from "../controllers/customerController.js";
+import { checkCustomerExists } from "../middleware/customerMiddleware.js";
 
 // GET /api/customers - Get all customers
 router.get("/", customerController.getAllCustomers);
@@ -12,15 +13,15 @@ router.get("/email/:email", customerController.getCustomerByEmail);
 router.get("/:id/prescriptions", customerController.getCustomerPrescriptions);
 
 // // GET /api/customers/:id - Get customer by ID
-router.get("/:id", customerController.getCustomerById);
+router.get("/:id", checkCustomerExists, customerController.getCustomerById);
 
 // POST /api/customer - Create new customer
 router.post("/", customerController.addCustomer);
 
 // PUT /api/customer/:id - Update customer
-router.put("/:id", customerController.updateCustomer);
+router.put("/:id", checkCustomerExists, customerController.updateCustomer);
 
 // DELETE /api/customer/:id - Delete customer
-router.delete("/:id", customerController.deleteCustomer);
+router.delete("/:id", checkCustomerExists, customerController.deleteCustomer);
 
 export default router;

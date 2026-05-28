@@ -20,25 +20,10 @@ const customerController = {
 
   // Get customer by ID
   getCustomerById: async (req, res) => {
-    try {
-      const customer = await Customer.getById(req.params.id);
-      if (!customer) {
-        return res.status(404).json({
-          success: false,
-          message: "Customer not found",
-        });
-      }
-      res.json({
-        success: true,
-        data: customer,
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: "Error fetching customer",
-        error: error.message,
-      });
-    }
+    res.json({
+      success: true,
+      data: req.customer,
+    });
   },
 
   // Create new customer
@@ -123,35 +108,17 @@ const customerController = {
   // Update customer
   updateCustomer: async (req, res) => {
     try {
-      const { firstname, lastname, age, phone, email, address } = req.body;
+      const { name, email, phone } = req.body;
       const customerId = req.params.id;
 
-      // Check if customer exists
-      const existingCustomer = await Customer.getById(customerId);
-      if (!existingCustomer) {
-        return res.status(404).json({
-          success: false,
-          message: "Customer not found",
-        });
-      }
-
-      // Validation
-      if (!firstname || !lastname || !age || !phone || !email || !address) {
+      if (!name || !email || !phone) {
         return res.status(400).json({
           success: false,
-          message:
-            "All fields (firstname, lastname, age, phone, email, address) are required",
+          message: "All fields are required",
         });
       }
 
-      await Customer.update(customerId, {
-        firstname,
-        lastname,
-        age,
-        phone,
-        email,
-        address,
-      });
+      await Customer.update(customerId, { name, email, phone });
 
       res.json({
         success: true,
@@ -169,18 +136,7 @@ const customerController = {
   // Delete customer
   deleteCustomer: async (req, res) => {
     try {
-      const customerId = req.params.id;
-
-      // Check if customer exists
-      const existingCustomer = await Customer.getById(customerId);
-      if (!existingCustomer) {
-        return res.status(404).json({
-          success: false,
-          message: "Customer not found",
-        });
-      }
-
-      await Customer.delete(customerId);
+      await Customer.delete(req.params.id);
 
       res.json({
         success: true,

@@ -8,7 +8,7 @@ import { dbConnection } from "./config/database.js";
 
 import customerRoutes from "./routes/customerRoute.js";
 import medicineRoutes from "./routes/medicineRoute.js";
-// import pharmacistRoutes from "./routes/pharmacistRoute.js";
+import pharmacistRoutes from "./routes/pharmacistRoute.js";
 // import prescriptionRoutes from "./routes/prescriptionRoute.js";
 // import salesRoutes from "./routes/salesRoute.js";
 
@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/customers", customerRoutes);
 app.use("/api/medicines", medicineRoutes);
-// app.use('/api/pharmacists', pharmacistRoutes);
+app.use("/api/pharmacists", pharmacistRoutes);
 // app.use('/api/prescriptions', prescriptionRoutes);
 // app.use('/api/sales', salesRoutes);
 
@@ -29,6 +29,7 @@ dbConnection()
   .then(() => {
     app.listen(PORT, () => {
       console.log("Server connected successfully");
+      console.log(`Server connected to port: ${PORT}`);
     });
   })
   .catch((err) => {
