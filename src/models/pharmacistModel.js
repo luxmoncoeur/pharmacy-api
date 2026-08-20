@@ -5,7 +5,7 @@ const Pharmacist = {
   getAll: () => {
     return new Promise((resolve, reject) => {
       db.query("SELECT * FROM tbl_pharmacists", (err, results) => {
-        if (err) reject(err);
+        if (err) return reject(err);
         resolve(results);
       });
     });
@@ -18,7 +18,7 @@ const Pharmacist = {
         "SELECT * FROM tbl_pharmacists WHERE pharmacist_id = ?",
         [id],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results[0]);
         },
       );
@@ -32,7 +32,7 @@ const Pharmacist = {
         "SELECT * FROM tbl_pharmacists WHERE firstname LIKE ?",
         [`%${firstName}%`],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results);
         },
       );
@@ -46,7 +46,7 @@ const Pharmacist = {
         "SELECT * FROM tbl_pharmacists WHERE lastname LIKE ?",
         [`%${lastName}%`],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results);
         },
       );
@@ -60,7 +60,7 @@ const Pharmacist = {
         "SELECT * FROM tbl_pharmacists WHERE email = ?",
         [email],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results[0]);
         },
       );
@@ -74,7 +74,7 @@ const Pharmacist = {
         "SELECT * FROM tbl_pharmacists WHERE phone = ?",
         [phone],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results[0]);
         },
       );
@@ -88,7 +88,7 @@ const Pharmacist = {
         "SELECT * FROM tbl_pharmacists WHERE license_no = ?",
         [license_no],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results[0]);
         },
       );
@@ -103,7 +103,7 @@ const Pharmacist = {
         "INSERT INTO tbl_pharmacists (firstname, lastname, email, phone, license_no) VALUES (?, ?, ?, ?, ?)",
         [firstname, lastname, email, phone, license_no],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve({ id: results.insertId, ...pharmacistData });
         },
       );
@@ -118,7 +118,7 @@ const Pharmacist = {
         "UPDATE tbl_pharmacists SET firstname = ?, lastname = ?, email = ?, phone = ?, license_no = ? WHERE id = ?",
         [firstname, lastname, email, phone, license_no, id],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results);
         },
       );
@@ -132,7 +132,7 @@ const Pharmacist = {
         "DELETE FROM tbl_pharmacists WHERE pharmacist_id = ?",
         [id],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results);
         },
       );

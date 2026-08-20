@@ -18,7 +18,7 @@ const Prescription = {
         JOIN tbl_prescribed_items pi ON p.prescription_id = pi.prescription_id
         JOIN tbl_medicines m ON pi.medicine_id = m.medicine_id`,
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results);
         },
       );
@@ -40,10 +40,11 @@ const Prescription = {
         JOIN tbl_customers c ON p.customer_ID = c.customer_id
         JOIN tbl_pharmacists ph ON p.pharmacist_id = ph.pharmacist_id
         JOIN tbl_prescribed_items pi ON p.prescription_id = pi.prescription_id
-        JOIN tbl_medicines m ON pi.medicine_id = m.medicine_id`,
+        JOIN tbl_medicines m ON pi.medicine_id = m.medicine_id
+        WHERE p.prescription_id = ?`,
         [id],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results);
         },
       );
@@ -61,7 +62,7 @@ const Prescription = {
         description,
       } = prescriptionData;
       db.query(
-        "INSERT INTO tbl_prescription (customer_id, pharmacist_id, doctor_name, license_no, date_issued, description) VALUES (?, ?, ?, ?, ?)",
+        "INSERT INTO tbl_prescription (customer_id, pharmacist_id, doctor_name, license_no, date_issued, description) VALUES (?, ?, ?, ?, ?, ?)",
         [
           customer_id,
           pharmacist_id,
@@ -71,7 +72,7 @@ const Prescription = {
           description,
         ],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results);
         },
       );
