@@ -10,7 +10,8 @@ import customerRoutes from "./routes/customerRoute.js";
 import medicineRoutes from "./routes/medicineRoute.js";
 import pharmacistRoutes from "./routes/pharmacistRoute.js";
 import prescriptionRoutes from "./routes/prescriptionRoute.js";
-// import salesRoutes from "./routes/salesRoute.js";
+import prescribedItemRoutes from "./routes/prescribedItemRoute.js";
+import saleRoutes from "./routes/saleRoute.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,7 +24,8 @@ app.use("/api/customers", customerRoutes);
 app.use("/api/medicines", medicineRoutes);
 app.use("/api/pharmacists", pharmacistRoutes);
 app.use("/api/prescriptions", prescriptionRoutes);
-// app.use('/api/sales', salesRoutes);
+app.use("/api/prescribed-items", prescribedItemRoutes);
+app.use("/api/sales", saleRoutes);
 
 dbConnection()
   .then(() => {
