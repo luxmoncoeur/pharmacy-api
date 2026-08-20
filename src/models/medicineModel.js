@@ -5,7 +5,7 @@ const Medicine = {
   getAll: () => {
     return new Promise((resolve, reject) => {
       db.query("SELECT * FROM tbl_medicines", (err, results) => {
-        if (err) reject(err);
+        if (err) return reject(err);
         resolve(results);
       });
     });
@@ -18,7 +18,7 @@ const Medicine = {
         "SELECT * FROM tbl_medicines WHERE medicine_id = ?",
         [id],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results[0]);
         },
       );
@@ -32,7 +32,7 @@ const Medicine = {
         "SELECT * FROM tbl_medicines WHERE name = ?",
         [name],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results);
         },
       );
@@ -46,7 +46,7 @@ const Medicine = {
         "SELECT * FROM tbl_medicines WHERE brand = ?",
         [brand],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results);
         },
       );
@@ -60,7 +60,7 @@ const Medicine = {
         "SELECT * FROM tbl_medicines WHERE category = ?",
         [category],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results);
         },
       );
@@ -76,7 +76,7 @@ const Medicine = {
         "INSERT INTO tbl_medicines (name, brand, category, price, stock, requires_prescription) VALUES (?, ?, ?, ?, ?, ?)",
         [name, brand, category, price, stock, requires_prescription],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve({ id: results.insertId, ...medicineData });
         },
       );
@@ -92,7 +92,7 @@ const Medicine = {
         "UPDATE tbl_medicines SET name = ?, brand = ?, category = ?, price = ?, stock = ?, requires_prescription = ? WHERE medicine_id = ?",
         [name, brand, category, price, stock, requires_prescription, id],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results);
         },
       );
@@ -106,7 +106,7 @@ const Medicine = {
         "DELETE FROM tbl_medicines WHERE medicine_id = ?",
         [id],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results);
         },
       );

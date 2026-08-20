@@ -5,7 +5,7 @@ const Customer = {
   getAll: () => {
     return new Promise((resolve, reject) => {
       db.query("SELECT * FROM tbl_customers", (err, results) => {
-        if (err) reject(err);
+        if (err) return reject(err);
         resolve(results);
       });
     });
@@ -18,7 +18,7 @@ const Customer = {
         "SELECT * FROM tbl_customers WHERE customer_id = ?",
         [id],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results[0]);
         },
       );
@@ -33,7 +33,7 @@ const Customer = {
         "INSERT INTO tbl_customers (firstname, lastname, age, phone, email, address) VALUES (?, ?, ?, ?, ?, ?)",
         [firstname, lastname, age, phone, email, address],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve({ id: results.insertId, ...customerData });
         },
       );
@@ -48,7 +48,7 @@ const Customer = {
         "UPDATE tbl_customers SET firstname = ?, lastname = ?, age = ?, phone = ?, email = ?, address = ? WHERE customer_id = ?",
         [firstname, lastname, age, phone, email, address, id],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results);
         },
       );
@@ -62,7 +62,7 @@ const Customer = {
         "DELETE FROM tbl_customers WHERE customer_id = ?",
         [id],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results);
         },
       );
@@ -76,7 +76,7 @@ const Customer = {
         "SELECT * FROM tbl_customers WHERE email = ?",
         [email],
         (err, results) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(results);
         },
       );
